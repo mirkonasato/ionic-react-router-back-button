@@ -1,16 +1,47 @@
 import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
-import { IonApp, IonRouterOutlet } from '@ionic/react';
+import {
+  IonApp,
+  IonIcon,
+  IonLabel,
+  IonRouterOutlet,
+  IonTabBar,
+  IonTabButton,
+  IonTabs
+} from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import Home from './pages/Home';
+import { home as homeIcon, settings as settingsIcon } from 'ionicons/icons';
+import ItemPage from './pages/ItemPage';
+import ItemsPage from './pages/ItemsPage';
+import SettingsPage from './pages/SettingsPage';
 
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
-      <IonRouterOutlet>
-        <Route path="/home" component={Home} exact={true} />
-        <Route exact path="/" render={() => <Redirect to="/home" />} />
-      </IonRouterOutlet>
+      <IonTabs>
+        <IonRouterOutlet>
+          <Route exact path="/items">
+            <ItemsPage />
+          </Route>
+          <Route exact path="/items/:id">
+            <ItemPage />
+          </Route>
+          <Route exact path="/settings">
+            <SettingsPage />
+          </Route>
+          <Redirect exact from="/" to="/items" />
+        </IonRouterOutlet>
+        <IonTabBar slot="bottom">
+          <IonTabButton tab="tab1" href="/items">
+            <IonIcon icon={homeIcon} />
+            <IonLabel>Home</IonLabel>
+          </IonTabButton>
+          <IonTabButton tab="tab2" href="/settings">
+            <IonIcon icon={settingsIcon} />
+            <IonLabel>Settings</IonLabel>
+          </IonTabButton>
+        </IonTabBar>
+      </IonTabs>
     </IonReactRouter>
   </IonApp>
 );
